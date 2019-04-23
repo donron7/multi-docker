@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before install:
+- docker build -t donron/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run donron/react-test npm test -- --coverage
+
+  after_success:
+  - docker build -t donron/multi-client ./client
+  - docker build -t donron/multi-server ./server
+  - docker build -t donron/multi-nginx ./nginx
+  - docker build -t donron/multi-worker ./worker
+  # Login to Docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #  take those images and push to dockerhub
+  - docker push donron/multi.client
+  - docker push donron/multi.nginx
+  - docker push donron/multi.server
+  - docker push donron/multi.worker
