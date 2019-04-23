@@ -16,7 +16,7 @@ after_success:
   # Login to Docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   #  take those images and push to dockerhubs
-  - docker push donron/multi.client
-  - docker push donron/multi.nginx
-  - docker push donron/multi.server
-  - docker push donron/multi.worker
+  - docker push donron/multi-client
+  - docker push donron/multi-nginx
+  - docker push donron/multi-server
+  - docker push donron/multi-worker
